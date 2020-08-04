@@ -1,6 +1,7 @@
-{
+require("dotenv").config();
+module.exports={
   "development": {
-    "url":"postgres://jaaebmqu:zUhieA3I8TOpXeLzGAH92JV5b3Yr6yEG@balarama.db.elephantsql.com:5432/jaaebmqu",
+    "url":process.env.DATABASE_URL_DEV,
     "dialect": "postgres",
     "operatorsAliases":"0"
   },
