@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const User = require("../models/").user;
-const Snippets=require("../models").sinppet;
+const Snippets=require("../models").snippet;
 
 const router = new Router();
 
