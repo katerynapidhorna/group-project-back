@@ -14,6 +14,18 @@ router.get('/',async(req,res)=>{
   }
 })
 
+router.put('/',async(req,res)=>{
+  const data = req.body
+  try{
+    const updateSnippet = await Snippets.findByPk(data.snippetId);
+    const updatedSnippet = updateSnippet.update({title:data.title,snippet:data.snippet})
+    res.send(updateSnippet)
+
+  }catch(e) {
+    console.log(e)
+  }
+})
+
 
 
 
