@@ -8,7 +8,7 @@ const router = new Router();
 router.get('/',async(req,res)=>{
   try{
     const response = await Snippets.findAll({include:[{model:Tags}]});
-    res.send({response})
+    res.send({snippets:response})
   } catch(e){
       console.log(e)
   }
