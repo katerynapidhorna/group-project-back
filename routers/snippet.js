@@ -29,7 +29,6 @@ router.put('/',async(req,res)=>{
 
 
 
-
 //create new snippet
 router.post('/',auth, async(req,res)=>{
 
@@ -50,6 +49,7 @@ router.post('/',auth, async(req,res)=>{
                             // url:data.url,
                             userId:userId,
                           })  
+
 
     await SnippetTags.create({tagId:data.tag, snippetId:newSnippet.dataValues.id})                     
     res.send('ok')
