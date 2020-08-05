@@ -1,17 +1,19 @@
 const { Router } = require("express");
 const User = require("../models/").user;
 const Snippets=require("../models").snippet;
+const Tags = require("../models").tag;
 
 const router = new Router();
 
 router.get('/',async(req,res)=>{
   try{
-    const response = await Snippets.findAll();
-    res.send(response)
+    const response = await Snippets.findAll({include:[{model:Tags}]});
+    res.send({response})
   } catch(e){
       console.log(e)
   }
 })
+
 
 
 
