@@ -2,6 +2,7 @@ const { Router } = require("express");
 const User = require("../models/").user;
 const Snippets=require("../models").snippet;
 const Tags = require("../models").tag;
+const auth=require("../auth/middleware")
 
 const router = new Router();
 
@@ -30,11 +31,15 @@ router.put('/',async(req,res)=>{
 
 
 //create new snippet
-router.post('/', async(req,res)=>{
+router.post('/',auth, async(req,res)=>{
+
+  const userLogged = req.user.dataValues;
+  const userId=userLogged.id
+
   const data = req.body
   try{
     //check if there are all required parameters
-    if(!data.title || !data.snippet || !data.userId) {
+    if(!data.title || !data.snippet || !userId) {
       res.status(400).send('absent one of the required parameters: title || snippet || userId');
       return;
     }
@@ -43,7 +48,7 @@ router.post('/', async(req,res)=>{
                             title:data.title,
                             snippet:data.snippet,
                             // url:data.url,
-                            userId:data.userId,
+                            userId:userId,
                           })  
 
     await SnippetTags.create({tagId:data.tag, snippetId:newSnippet.dataValues.id})                     
