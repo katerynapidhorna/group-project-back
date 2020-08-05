@@ -7,6 +7,7 @@ const { PORT } = require("./config/constants");
 const authRouter = require("./routers/auth");
 const snippetRouter=require("./routers/snippet");
 const snippetTagRouter = require("./routers/snippetTag");
+const tagRouter = require("./routers/tag");
 const authMiddleWare = require("./auth/middleware");
 
 const app = express();
@@ -157,6 +158,7 @@ app.post("/authorized_post_request", authMiddleWare, (req, res) => {
 app.use("/", authRouter);
 app.use("/snippets",snippetRouter);
 app.use("/snippets-tags",snippetTagRouter);
+app.use("/tags", tagRouter);
 
 
 // Listen for connections on specified port (default is port 4000)
