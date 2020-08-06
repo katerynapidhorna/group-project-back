@@ -18,7 +18,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   tag.init({
-    name: DataTypes.STRING
+    name: DataTypes.STRING,
+    color: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'tag',
