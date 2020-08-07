@@ -100,7 +100,7 @@ router.post("/", auth, async (req, res) => {
         return { name: tag, color: data.color };
       })
     );
-    const res = await SnippetTags.bulkCreate(
+    const response = await SnippetTags.bulkCreate(
       newTag.map((tag) => {
         return {
           tagId: tag.dataValues.id,
