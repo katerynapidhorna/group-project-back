@@ -7,7 +7,6 @@ router.get('/', async(req,res,next)=>{
   try{
 
     const data = await Tags.findAll();
-   // console.log(data)
     res.send({tags:data})
 
   }catch(e) {
