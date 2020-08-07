@@ -4,7 +4,9 @@ const Snippets = require("../models").snippet;
 const Tags = require("../models").tag;
 const auth = require("../auth/middleware");
 const SnippetTags = require("../models").snippetTag;
+const { newColor } = require("../color");
 
+console.log(newColor);
 
 const router = new Router();
 
@@ -57,21 +59,12 @@ router.post("/", auth, async (req, res) => {
       userId: userId,
     });
 
-
     let numbersOnly = (val) => {
       if (typeof val === "number") {
         return val;
       }
     };
     const numberTags = data.tag.filter(numbersOnly);
-
-    // numberTags.map(async tag => {
-    //   const newRelation = await SnippetTags.create({
-    //     tagId: tag,
-    //     snippetId: newSnippet.dataValues.id,
-    //   });
-    //   res.send(newRelation)
-    // })
 
     let newRelation = await SnippetTags.bulkCreate(
       numberTags.map((id) => {
@@ -86,18 +79,9 @@ router.post("/", auth, async (req, res) => {
     };
     const stringTags = data.tag.filter(stringsOnly);
 
-    // stringTags.map(async (tag) => {
-    //   const newTag = await Tags.create({ name: tag, color: data.color });
-    //   await SnippetTags.create({
-    //     tagId: newTag.dataValues.id,
-    //     snippetId: newSnippet.dataValues.id,
-    //   });
-    // });
-
-
     const newTag = await Tags.bulkCreate(
       stringTags.map((tag) => {
-        return { name: tag, color: data.color };
+        return { name: tag, color: newColor };
       })
     );
     const response = await SnippetTags.bulkCreate(
@@ -108,23 +92,19 @@ router.post("/", auth, async (req, res) => {
         };
       })
     );
-    // newRelation = {...newRelation, res};
 
     res.send(newSnippet);
-
   } catch (e) {
     console.log(e);
   }
 });
 
-
 router.delete("/:id", async (req, res, next) => {
   try {
     const id = parseInt(req.params.id);
-    /// const userId=2;
-    // console.log(id,"id")
+
     const snippet = await Snippets.findByPk(id);
-    //console.log("delete",snippet)
+
     if (!snippet) {
       res.status(404).send("snippet not found");
     } else {
@@ -138,6 +118,5 @@ router.delete("/:id", async (req, res, next) => {
     console.log(e);
   }
 });
-
 
 module.exports = router;
