@@ -1,9 +1,10 @@
 const { Router } = require("express");
 const User = require("../models/").user;
 const Snippets = require("../models").snippet;
-const SnippetTags = require("../models").snippetTag;
 const Tags = require("../models").tag;
 const auth = require("../auth/middleware");
+const SnippetTags = require("../models").snippetTag;
+
 
 const router = new Router();
 
@@ -56,6 +57,7 @@ router.post("/", auth, async (req, res) => {
       userId: userId,
     });
 
+
     let numbersOnly = (val) => {
       if (typeof val === "number") {
         return val;
@@ -92,6 +94,7 @@ router.post("/", auth, async (req, res) => {
     //   });
     // });
 
+
     const newTag = await Tags.bulkCreate(
       stringTags.map((tag) => {
         return { name: tag, color: data.color };
@@ -108,9 +111,33 @@ router.post("/", auth, async (req, res) => {
     // newRelation = {...newRelation, res};
 
     res.send(newSnippet);
+
   } catch (e) {
     console.log(e);
   }
 });
+
+
+router.delete("/:id", async (req, res, next) => {
+  try {
+    const id = parseInt(req.params.id);
+    /// const userId=2;
+    // console.log(id,"id")
+    const snippet = await Snippets.findByPk(id);
+    //console.log("delete",snippet)
+    if (!snippet) {
+      res.status(404).send("snippet not found");
+    } else {
+      await SnippetTags.destroy({ where: { snippetId: id } });
+      await snippet.destroy();
+      const response = await Snippets.findAll({ include: [{ model: Tags }] });
+      console.log("response ", { snippets: response });
+      res.send({ snippets: response });
+    }
+  } catch (e) {
+    console.log(e);
+  }
+});
+
 
 module.exports = router;
