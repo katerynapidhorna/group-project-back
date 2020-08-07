@@ -92,8 +92,11 @@ router.post("/", auth, async (req, res) => {
         };
       })
     );
+    newRelation = { ...newRelation, response };
 
-    res.send(newSnippet);
+    const allTags = await Tags.findAll();
+
+    res.send([newSnippet, newRelation, allTags]);
   } catch (e) {
     console.log(e);
   }
