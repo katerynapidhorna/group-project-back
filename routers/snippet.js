@@ -77,6 +77,7 @@ router.post("/", auth, async (req, res) => {
         return val;
       }
     };
+
     const stringTags = data.tag.filter(stringsOnly);
 
     const newTag = await Tags.bulkCreate(
