@@ -13,7 +13,7 @@ module.exports = {
     dialect: "mysql",
   },
   production: {
-    url: process.env.DATABASE_URL,
+    url: process.env.DATABASE_URL_DEV,
     dialect: "postgres",
     operatorsAliases: "0",
   },
